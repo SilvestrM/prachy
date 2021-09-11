@@ -1,34 +1,39 @@
 <template>
     <div class="card">
-        <TabMenu :model="items" />
+        <MenuBar :model="items">
+            <template #end></template>
+        </MenuBar>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import TabMenu from "primevue/tabmenu";
+//import TabMenu from "primevue/tabmenu";
+import MenuBar from "primevue/menubar";
 
 export default defineComponent({
     components: {
-        TabMenu,
+        //TabMenu,
+        MenuBar
     },
     setup() {
         const active = ref(3);
         const items = ref([
             {
                 label: "Dashboard",
-                icon: "pi pi-fw pi-home",
+                icon: "pi pi-fw pi-th-large",
                 to: "Dashboard",
             },
             {
                 label: "Transactions",
-                icon: "pi pi-fw pi-calendar",
+                icon: "pi pi-fw pi-list",
                 to: "Transactions",
             },
             {
                 label: "Budgets",
-                icon: "pi pi-fw pi-file",
+                icon: "pi pi-fw pi-credit-card",
                 name: "Dashboard",
+                disabled: true
             },
             {
                 label: "Settings",

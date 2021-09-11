@@ -27,7 +27,7 @@ import { useToast } from 'primevue/usetoast';
 export default {
     setup() {
         const toast = useToast();
-        const menu = (null);
+        let menu: any;
         const collapsed = ref(true);
         const items = ref([
             {

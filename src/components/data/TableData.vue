@@ -325,7 +325,7 @@ import Toolbar from 'primevue/toolbar';
 import { ref, onMounted } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
-import ProductService from './ProductService.js';
+import ProductService from './ProductService';
 
 export default {
     setup() {
@@ -339,7 +339,7 @@ export default {
         const productDialog = ref(false);
         const deleteProductDialog = ref(false);
         const deleteProductsDialog = ref(false);
-        const product = ref({});
+        const product = ref<any>({});
         const productService = ref(new ProductService());
         const selectedProducts = ref();
         const filters = ref({
@@ -352,7 +352,7 @@ export default {
             { label: 'OUTOFSTOCK', value: 'outofstock' }
         ]);
 
-        const formatCurrency = (value) => {
+        const formatCurrency = (value: any) => {
             if (value)
                 return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
             return;
@@ -388,21 +388,21 @@ export default {
                 product.value = {};
             }
         };
-        const editProduct = (prod) => {
+        const editProduct = (prod: any) => {
             product.value = { ...prod };
             productDialog.value = true;
         };
-        const confirmDeleteProduct = (prod) => {
+        const confirmDeleteProduct = (prod: any) => {
             product.value = prod;
             deleteProductDialog.value = true;
         };
         const deleteProduct = () => {
-            products.value = products.value.filter(val => val.id !== product.value.id);
+            products.value = products.value.filter((val: any) => val.id !== product.value.id);
             deleteProductDialog.value = false;
             product.value = {};
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
         };
-        const findIndexById = (id) => {
+        const findIndexById = (id: any) => {
             let index = -1;
             for (let i = 0; i < products.value.length; i++) {
                 if (products.value[i].id === id) {
@@ -428,7 +428,7 @@ export default {
             deleteProductsDialog.value = true;
         };
         const deleteSelectedProducts = () => {
-            products.value = products.value.filter(val => !selectedProducts.value.includes(val));
+            products.value = products.value.filter((val: any) => !selectedProducts.value.includes(val));
             deleteProductsDialog.value = false;
             selectedProducts.value = null;
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });

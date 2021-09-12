@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="menu-wrapper">
         <MenuBar :model="items">
             <template #end></template>
         </MenuBar>
@@ -8,12 +8,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-//import TabMenu from "primevue/tabmenu";
 import MenuBar from "primevue/menubar";
 
 export default defineComponent({
     components: {
-        //TabMenu,
         MenuBar
     },
     setup() {
@@ -48,7 +46,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-::v-deep(.tabmenudemo-content) {
-    padding: 2rem 1rem;
+.menu-wrapper {
+    margin-bottom: 2rem;
 }
 </style>

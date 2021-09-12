@@ -23,7 +23,11 @@
 		"src/**/*.vue",
 		"tests/**/*.ts",
 		"tests/**/*.tsx",
-		"src/views/Transactions.vue"
+		"src/views/Transactions.vue",
+		"src/components/navigation/Menu.vue",
+		"src/components/data/TransactionsTable.vue",
+		"src/components/data/dialogs/EditTransactionDialog.vue",
+		"src/components/data/dialogs/TransactionDialog.vue"
 	],
 	"exclude": ["node_modules"]
 }

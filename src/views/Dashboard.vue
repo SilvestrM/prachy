@@ -12,10 +12,17 @@
 import Widget from "@/components/data/Widget.vue"
 </script>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { key } from "@/store";
+import { defineComponent, onMounted } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
     setup() {
+        const store = useStore(key);
+
+        onMounted(() => {
+            store.dispatch("fetchTransactions")
+        })
         return {};
     },
 });

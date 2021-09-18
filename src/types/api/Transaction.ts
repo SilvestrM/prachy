@@ -6,8 +6,13 @@ export interface ITransaction {
 	date: Date;
 	description: string;
 	amount?: number;
-	type?: number;
+	typeId?: number;
 	accountId?: number;
+}
+
+export interface TransactionType {
+	id?: number;
+	name?: string;
 }
 
 export class DTOTransaction implements ITransaction {
@@ -16,7 +21,7 @@ export class DTOTransaction implements ITransaction {
 	date: Date = new Date();
 	description = "";
 	amount?: number | undefined;
-	type?: number | undefined;
+	typeId?: number | undefined;
 	accountId?: number;
 
 	constructor(transaction: ITransaction) {
@@ -25,7 +30,7 @@ export class DTOTransaction implements ITransaction {
 		this.date = transaction.date;
 		this.description = transaction.description;
 		this.amount = transaction.amount;
-		this.type = transaction.type;
+		this.typeId = transaction.typeId;
 		this.accountId = transaction.accountId;
 	}
 }
@@ -33,9 +38,15 @@ export class DTOTransaction implements ITransaction {
 export class Transaction extends DTOTransaction {
 	month?: number;
 	account?: Account;
-	constructor(transaction: DTOTransaction, account?: Account) {
+	type?: TransactionType;
+	constructor(
+		transaction: DTOTransaction,
+		account?: Account,
+		type?: TransactionType
+	) {
 		super(transaction);
 		this.account = account;
+		this.type = type;
 		this.month = new Date(transaction.date).getMonth();
 	}
 }

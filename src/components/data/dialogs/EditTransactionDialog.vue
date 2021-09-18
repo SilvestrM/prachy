@@ -2,48 +2,50 @@
   <Dialog
     v-model:visible="visible"
     :style="{ width: '450px' }"
-    :header="transactionData?.description"
+    :header="isUpdate ? 'Edit Transaction' : 'Create Transaction'"
     :modal="true"
     class="p-fluid"
   >
-    <span class="p-field">
-      <label for="description">Text</label>
-      <InputText
-        id="description"
-        type="text"
-        v-model="transactionData.description"
-      />
-    </span>
-    <span class="p-field">
-      <label for="amount">Amount</label>
-      <InputNumber
-        id="amount"
-        type="text"
-        mode="currency"
-        currency="EUR"
-        v-model="transactionData.amount"
-        showButtons
-      />
-    </span>
-    <div class="p-field">
-      <label for="icon">Icon</label>
-      <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
-    </div>
-    <div class="p-field">
-      <Listbox
-        v-model="transactionData.accountId"
-        :options="accounts"
-        optionLabel="name"
-        optionValue="id"
-      />
-    </div>
-    <div class="p-field">
-      <Dropdown
-        v-model="transactionData.accountId"
-        :options="accounts"
-        optionLabel="name"
-        optionValue="id"
-      />
+    <div class="pr-form pr-form__vertical">
+      <span class="p-field">
+        <label for="description">Text</label>
+        <InputText
+          id="description"
+          type="text"
+          v-model="transactionData.description"
+        />
+      </span>
+      <span class="p-field">
+        <label for="amount">Amount</label>
+        <InputNumber
+          id="amount"
+          type="text"
+          mode="currency"
+          currency="EUR"
+          v-model="transactionData.amount"
+          showButtons
+        />
+      </span>
+      <div class="p-field">
+        <label for="icon">Icon</label>
+        <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
+      </div>
+      <div class="p-field">
+        <Dropdown
+          v-model="transactionData.accountId"
+          :options="accounts"
+          optionLabel="name"
+          optionValue="id"
+        />
+      </div>
+      <div class="p-field">
+        <Dropdown
+          v-model="transactionData.typeId"
+          :options="transTypes"
+          optionLabel="name"
+          optionValue="id"
+        />
+      </div>
     </div>
     <template #footer>
       <Button
@@ -64,15 +66,22 @@
 <script lang="ts">
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
-import { computed, onMounted, ref } from "vue";
+import {
+  ComponentObjectPropsOptions,
+  ComponentPropsOptions,
+  computed,
+  onMounted,
+  ref,
+} from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
 import { Transaction } from "@/types/api/Transaction";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import Calendar from "primevue/calendar";
-import Listbox from "primevue/listbox";
 import Dropdown from "primevue/dropdown";
+
+import useDialog from "@/composables/dialog";
 
 // import Rating from "primevue/toolbar";
 // import Textarea from "primevue/textarea";
@@ -86,30 +95,29 @@ export default {
     InputText,
     InputNumber,
     Calendar,
-    Listbox,
     Dropdown,
   },
-  setup() {
+  setup(props: ComponentObjectPropsOptions) {
     onMounted(() => {
       store.dispatch("fetchAccounts");
     });
     const store = useStore(key);
-    const transactionData = ref<Transaction>();
-    const visible = ref(false);
+
+    const { visible, dialogData, openDialog, closeDialog } =
+      useDialog<Transaction>();
 
     // TODO maybe make grouped
     const accounts = computed(() => store.getters.getAccounts);
+    const transTypes = computed(() => store.getters.getTransactionTypes);
 
-    function openDialog(data: Transaction) {
-      transactionData.value = data;
-      visible.value = true;
-    }
-    function closeDialog() {
-      visible.value = false;
-    }
+    const transactionData = dialogData;
 
     async function save() {
-      await store.dispatch("updateTransaction", transactionData.value);
+      if (props.isUpdate) {
+        await store.dispatch("updateTransaction", transactionData.value);
+      } else {
+        await store.dispatch("createTransaction", transactionData.value);
+      }
       closeDialog();
     }
 
@@ -120,6 +128,7 @@ export default {
       closeDialog,
       save,
       accounts,
+      transTypes,
     };
   },
 };

@@ -1,15 +1,21 @@
 import { ActionTree, GetterTree, Module, MutationTree } from "vuex";
 import { supabase } from "@/api/supabase";
 import { RootState } from "..";
-import { DTOTransaction, Transaction } from "@/types/api/Transaction";
+import {
+	DTOTransaction,
+	Transaction,
+	TransactionType,
+} from "@/types/api/Transaction";
 import { Account } from "@/types/api/Account";
 
 export interface TransactionsState {
 	transactions: Array<Transaction>;
+	transactionTypes: Array<TransactionType>;
 }
 
 const state: TransactionsState = {
 	transactions: [],
+	transactionTypes: [],
 };
 
 const mutations: MutationTree<TransactionsState> = {
@@ -22,11 +28,17 @@ const mutations: MutationTree<TransactionsState> = {
 			state.transactions.splice(index, 1, transaction);
 		}
 	},
+	setTransactionTypes(state, transTypes) {
+		state.transactionTypes = transTypes;
+	},
 };
 
 const getters: GetterTree<TransactionsState, RootState> = {
 	getTransactions(state) {
 		return state.transactions;
+	},
+	getTransactionTypes(state) {
+		return state.transactionTypes;
 	},
 };
 
@@ -35,14 +47,26 @@ const actions: ActionTree<TransactionsState, RootState> = {
 		//TODO improve foregin keys
 		const { data: transactions, error } = await supabase
 			.from("transactions")
-			.select(`*, account: accountId (id, name, type: typeId (name))`);
+			.select(
+				`*, account: accountId (id, name, type: typeId (name)), type: typeId (id, name)`
+			);
 
 		commit(
 			"setTransactions",
-			transactions?.map((trans) => new Transaction(trans, trans.account))
+			transactions?.map(
+				(trans) => new Transaction(trans, trans.account, trans.type)
+			)
 		);
 	},
-	async createTransaction({ commit }, transaction: Transaction) {
+
+	async fetchTransactionTypes({ commit }) {
+		const { data: transaction_types, error } = await supabase
+			.from("transaction_type")
+			.select("id, name");
+		commit("setTransactionTypes", transaction_types);
+	},
+	async createTransaction({ commit, rootState }, transaction: Transaction) {
+		transaction.uuid = rootState.session.user.id;
 		await supabase.from("transactions").insert(new DTOTransaction(transaction));
 	},
 	async updateTransaction({ commit, dispatch }, transaction: Transaction) {

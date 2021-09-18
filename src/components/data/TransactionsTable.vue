@@ -21,12 +21,24 @@
       <template #header>
         <Toolbar>
           <template #left>
-            <Button label="Add" icon="pi pi-plus" class="p-mr-2" />
+            <Button
+              @click="addTransaction"
+              label="Add"
+              icon="pi pi-plus"
+              class="p-mr-2"
+            />
             <!-- <Button label="Upload" icon="pi pi-upload" class="p-button-success" />
                 <i class="pi pi-bars p-toolbar-separator p-mr-2" />
                 <SplitButton label="Save" icon="pi pi-check" :model="items" class="p-button-warning"></SplitButton> -->
           </template>
         </Toolbar>
+        <!-- <SpeedDial
+          :model="[]"
+          showIcon="pi pi-bars"
+          hideIcon="pi pi-times"
+          buttonClass="p-button-outlined"
+          direction="right"
+        /> -->
       </template>
       <Column field="month" header="Month">
         <template #body="slotProps">
@@ -42,8 +54,12 @@
       ></Column>
     </DataTable>
     <ContextMenu :model="ctxMenuModel" ref="cm" />
-    <Dialog></Dialog>
-    <EditTransactionDialog ref="editDialog"></EditTransactionDialog>
+
+    <EditTransactionDialog
+      ref="editDialog"
+      :isUpdate="true"
+    ></EditTransactionDialog>
+    <EditTransactionDialog ref="createDialog"></EditTransactionDialog>
   </div>
 </template>
 
@@ -64,12 +80,12 @@ import Column from "primevue/column";
 import ContextMenu from "primevue/contextmenu";
 import Toolbar from "primevue/toolbar";
 import Button from "primevue/button";
-import Dialog from "primevue/dialog";
+//import SpeedDial from "primevue/speeddial";
 
 import EditTransactionDialog from "@/components/data/dialogs/EditTransactionDialog.vue";
 
 import { GetMonthByNumber } from "@/utils/dateUtils";
-import { Transaction } from "@/types/api/Transaction";
+import { DTOTransaction, Transaction } from "@/types/api/Transaction";
 
 export default {
   props: ["data"],
@@ -79,8 +95,8 @@ export default {
     ContextMenu,
     Toolbar,
     Button,
-    Dialog,
     EditTransactionDialog,
+    //SpeedDial,
   },
   setup(props: any) {
     const columns = ref([
@@ -92,6 +108,7 @@ export default {
 
     const selected = ref();
 
+    const createDialog = ref();
     const editDialog = ref();
 
     const cm = ref();
@@ -107,6 +124,29 @@ export default {
         command: () => deleteTransaction(selected.value),
       },
     ]);
+
+    const actionMenu = ref([
+      {
+        label: "Add",
+        icon: "pi pi-pencil",
+        command: () => {
+          return;
+        },
+      },
+      {
+        label: "Update",
+        icon: "pi pi-refresh",
+        command: () => {
+          return;
+        },
+      },
+    ]);
+
+    function addTransaction() {
+      createDialog.value.openDialog(
+        new Transaction({ date: new Date(), description: "" })
+      );
+    }
 
     function editTransaction(row: any): void {
       editDialog.value.openDialog(row);
@@ -128,6 +168,9 @@ export default {
       cm,
       onRowContextMenu,
       editDialog,
+      createDialog,
+      actionMenu,
+      addTransaction,
     };
   },
 };
@@ -136,5 +179,6 @@ export default {
 <style lang="scss" scoped>
 .p-toolbar {
   padding: 0;
+  //margin-bottom: 2rem;
 }
 </style>

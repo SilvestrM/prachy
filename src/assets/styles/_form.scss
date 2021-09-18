@@ -1,0 +1,8 @@
+.pr-form {
+	display: grid;
+	padding-block: 2rem;
+	&__vertical {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+}

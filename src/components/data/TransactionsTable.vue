@@ -52,6 +52,11 @@
         :header="col.header"
         :sortable="col.sortable"
       ></Column>
+      <Column field="type" header="Transaction Type">
+        <template #body="slotProps">
+          {{ slotProps.data.type?.name }}
+        </template>
+      </Column>
     </DataTable>
     <ContextMenu :model="ctxMenuModel" ref="cm" />
 

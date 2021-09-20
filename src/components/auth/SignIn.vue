@@ -16,21 +16,25 @@
 
         <label for="pw">Password</label>
       </span>
+      <Button @click="login(email, password)" label="Sign In" />
+      <span>
+        <p>Not registered yet?</p>
+        <Button @click="openSignUp" class="p-button-link" label="SignUp"
+      /></span>
     </div>
-    <template #footer>
+    <!-- <template #footer>
       <Button
         label="Cancel"
         icon="pi pi-times"
         class="p-button-text"
         @click="closeDialog"
       />
-      <Button @click="openSignUp" label="SignUp" icon="pi pi-check" />
       <Button
         @click="login(email, password)"
         label="SignIn"
         icon="pi pi-check"
       />
-    </template>
+    </template> -->
   </Dialog>
   <SignUp ref="signUpDialog"></SignUp>
 </template>

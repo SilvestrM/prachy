@@ -16,6 +16,11 @@
 
         <label for="pw">Password</label>
       </span>
+      <span class="p-float-label">
+        <Password id="pw" v-model="pwCheck" />
+
+        <label for="pw">Re-Password</label>
+      </span>
     </div>
     <template #footer>
       <Button
@@ -25,7 +30,7 @@
         @click="closeDialog"
       />
       <Button
-        @click="register(email, password)"
+        @click="register(email, password, pwCheck)"
         label="SignUp"
         icon="pi pi-check"
       />
@@ -51,16 +56,28 @@ export default defineComponent({
   setup() {
     const email = ref<string>();
     const password = ref<string>();
+    const pwCheck = ref<string>();
     const store = useStore(key);
 
     const { visible, openDialog, closeDialog } = useDialog();
 
-    async function register(email: string, password: string) {
+    async function register(email: string, password: string, pwCheck: string) {
+      if (password !== pwCheck) {
+        return;
+      }
       await store.dispatch("register", new Credentials(email, password));
       closeDialog();
     }
 
-    return { email, password, visible, openDialog, closeDialog, register };
+    return {
+      email,
+      password,
+      visible,
+      openDialog,
+      closeDialog,
+      register,
+      pwCheck,
+    };
   },
 });
 </script>

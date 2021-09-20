@@ -14,7 +14,8 @@ import router from "./router";
 import store, { key } from "./store";
 
 createApp(App)
-	.use(PrimeVue, ToastService)
+	.use(PrimeVue)
+	.use(ToastService)
 	.use(store, key)
 	.use(router)
 	.mount("#app");

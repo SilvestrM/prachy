@@ -1,5 +1,6 @@
 import { supabase } from "@/api/supabase";
 import { Credentials } from "@/types/auth";
+import { useToast } from "primevue/usetoast";
 import { InjectionKey } from "vue";
 import { createStore, Store } from "vuex";
 import createPersistedState from "vuex-persistedstate";
@@ -29,7 +30,8 @@ export default createStore<RootState>({
 			});
 		},
 		async login({ commit, state }, credentials: Credentials) {
-			// $toast.add({
+			//const toast = useToast();
+			// toast.add({
 			// 	severity: "info",
 			// 	summary: "Info Message",
 			// 	detail: "Message Content",

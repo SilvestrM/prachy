@@ -31,6 +31,7 @@
         <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
       </div>
       <div class="p-field">
+        <label for="icon">Account</label>
         <Dropdown
           v-model="transactionData.accountId"
           :options="accounts"
@@ -39,6 +40,7 @@
         />
       </div>
       <div class="p-field">
+        <label for="icon">Transaction Type</label>
         <Dropdown
           v-model="transactionData.typeId"
           :options="transTypes"

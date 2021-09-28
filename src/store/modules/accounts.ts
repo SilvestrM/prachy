@@ -2,6 +2,7 @@ import { ActionTree, GetterTree, Module, MutationTree } from "vuex";
 import { supabase } from "@/api/supabase";
 import { RootState } from "..";
 import { Account } from "@/types/api/Account";
+import axios from "axios";
 
 export interface AccountsState {
 	accounts: Array<Account>;

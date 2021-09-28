@@ -7,14 +7,32 @@
     class="p-fluid"
   >
     <div class="pr-form pr-form__vertical">
-      <span class="p-field">
-        <label for="description">Text</label>
-        <InputText
-          id="description"
-          type="text"
-          v-model="transactionData.description"
-        />
-      </span>
+      <div class="p-field">
+        <label for="icon">Date</label>
+        <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
+      </div>
+      <div class="p-formgroup-inline">
+        <label for="icon">Transaction Type</label>
+        <!-- <Dropdown
+          v-model="transactionData.typeId"
+          :options="transTypes"
+          optionLabel="name"
+          optionValue="id"
+        /> -->
+        <div
+          v-for="trans of transTypes"
+          :key="trans.id"
+          class="p-field-radiobutton"
+        >
+          <RadioButton
+            :id="trans.id"
+            name="transType"
+            :value="trans.id"
+            v-model="transactionData.typeId"
+          />
+          <label :for="trans.id">{{ trans.name }}</label>
+        </div>
+      </div>
       <span class="p-field">
         <label for="amount">Amount</label>
         <InputNumber
@@ -26,24 +44,19 @@
           showButtons
         />
       </span>
-      <div class="p-field">
-        <label for="icon">Icon</label>
-        <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
-      </div>
+      <span class="p-field">
+        <label for="description">Text</label>
+        <InputText
+          id="description"
+          type="text"
+          v-model="transactionData.description"
+        />
+      </span>
       <div class="p-field">
         <label for="icon">Account</label>
         <Dropdown
           v-model="transactionData.accountId"
           :options="accounts"
-          optionLabel="name"
-          optionValue="id"
-        />
-      </div>
-      <div class="p-field">
-        <label for="icon">Transaction Type</label>
-        <Dropdown
-          v-model="transactionData.typeId"
-          :options="transTypes"
           optionLabel="name"
           optionValue="id"
         />
@@ -59,7 +72,7 @@
       <Button
         label="Save"
         icon="pi pi-check"
-        class="p-button-text"
+        class="p-button-primary"
         @click="save"
       />
     </template>
@@ -77,9 +90,10 @@ import {
 } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import { Transaction } from "@/types/api/Transaction";
+import { Transaction, TransactionType } from "@/types/api/Transaction";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
+import RadioButton from "primevue/radiobutton";
 import Calendar from "primevue/calendar";
 import Dropdown from "primevue/dropdown";
 
@@ -98,6 +112,7 @@ export default {
     InputNumber,
     Calendar,
     Dropdown,
+    RadioButton,
   },
   setup(props: ComponentObjectPropsOptions) {
     onMounted(() => {

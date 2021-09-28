@@ -23,9 +23,14 @@ const mutations: MutationTree<TransactionsState> = {
 		state.transactions = transactions;
 	},
 	setTransaction(state, transaction) {
-		const index = state.transactions.findIndex((id) => id === transaction.id);
-		if (index !== -1) {
-			state.transactions.splice(index, 1, transaction);
+		// const index = state.transactions.findIndex((id) => id === transaction.id);
+		// if (index !== -1) {
+		// 	state.transactions.splice(index, 1, transaction);
+		// }
+
+		const item = state.transactions.find((item) => item.id === transaction.id);
+		if (item) {
+			Object.assign(item, transaction);
 		}
 	},
 	setTransactionTypes(state, transTypes) {
@@ -37,13 +42,18 @@ const getters: GetterTree<TransactionsState, RootState> = {
 	getTransactions(state) {
 		return state.transactions;
 	},
+	getTransactionById: (state) => (id: number) => {
+		return state.transactions.find((item) => item.id === id);
+	},
 	getTransactionTypes(state) {
-		return state.transactionTypes;
+		return state.transactionTypes.filter(
+			(type: TransactionType) => type.id !== 4
+		);
 	},
 };
 
 const actions: ActionTree<TransactionsState, RootState> = {
-	async fetchTransactions({ commit }) {
+	async fetchTransactions({ commit, dispatch }) {
 		//TODO improve foregin keys
 		const { data: transactions, error } = await supabase
 			.from("transactions")
@@ -57,9 +67,10 @@ const actions: ActionTree<TransactionsState, RootState> = {
 				(trans) => new Transaction(trans, trans.account, trans.type)
 			)
 		);
+		await dispatch("fetchTransactionTypes");
 	},
 
-	async fetchTransactionTypes({ commit }) {
+	async fetchTransactionTypes({ commit, state }) {
 		const { data: transaction_types, error } = await supabase
 			.from("transaction_type")
 			.select("id, name");
@@ -79,11 +90,14 @@ const actions: ActionTree<TransactionsState, RootState> = {
 			.from("accounts")
 			.select(`id, name, type:typeId(name)`)
 			.eq("id", transaction.accountId);
-		console.log(account);
 		if (account) {
-			transaction = new Transaction(transaction, new Account(account[0]));
+			transaction = new Transaction(
+				transaction,
+				new Account(account[0]),
+				state.transactionTypes.find((type) => type.id === transaction.typeId)
+			);
 		}
-		console.log(transaction);
+
 		commit("setTransaction", transaction);
 	},
 };

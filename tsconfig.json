@@ -29,7 +29,8 @@
 		"src/components/data/dialogs/EditTransactionDialog.vue",
 		"src/components/data/dialogs/TransactionDialog.vue",
 		"src/components/auth/SignIn.vue",
-		"src/components/auth/AuthDialog.vue"
+		"src/components/auth/AuthDialog.vue",
+		"src/views/settings/Preferences.vue"
 	],
 	"exclude": ["node_modules"]
 }

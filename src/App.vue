@@ -10,7 +10,7 @@
 
 <style lang="scss">
 html {
-  font-size: 14px;
+  //font-size: 14px;
 }
 
 .container {

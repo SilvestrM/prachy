@@ -83,6 +83,17 @@ export default createStore<RootState>({
 			commit("setSession", {});
 		},
 	},
+	getters: {
+		getSession(state) {
+			return state.session;
+		},
+		getLoggedInUser(state) {
+			return state.session?.user
+		},
+		isAuthenticated(state) {
+			return state.session
+		}
+	},
 	modules: {
 		transactions,
 		accounts,

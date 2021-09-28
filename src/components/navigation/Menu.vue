@@ -31,7 +31,9 @@
             ref="avatarMenu"
             :model="avatarMenuItems"
             :popup="true"
-          />
+            style="width:100%; max-width:20rem;"
+          >
+          </Menu>
         </template>
       </template>
     </MenuBar>
@@ -40,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import MenuBar from "primevue/menubar";
 import Button from "primevue/button";
 //import Avatar from "primevue/avatar";
@@ -79,7 +81,16 @@ export default defineComponent({
       },
     ]);
     const avatarMenu = ref();
+    const user = computed(() => store.getters.getLoggedInUser?.email)
     const avatarMenuItems = ref([
+      {
+        label: user,
+        style: "font-weight:bold",
+        icon: PrimeIcons.USER
+      },
+      {
+        separator: "true",
+      },
       {
         label: "Settings",
         icon: PrimeIcons.COG,

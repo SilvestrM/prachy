@@ -20,7 +20,7 @@
     >
       <template #header>
         <Toolbar>
-          <template #left>
+          <template #right>
             <Button
               @click="addTransaction"
               label="Add"

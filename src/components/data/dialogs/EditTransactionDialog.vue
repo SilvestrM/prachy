@@ -7,6 +7,10 @@
     class="p-fluid"
   >
     <div class="pr-form pr-form__vertical">
+      <div class="p-field">
+        <label for="icon">Date</label>
+        <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
+      </div>
       <span class="p-field">
         <label for="description">Text</label>
         <InputText
@@ -27,10 +31,6 @@
         />
       </span>
       <div class="p-field">
-        <label for="icon">Icon</label>
-        <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
-      </div>
-      <div class="p-field">
         <label for="icon">Account</label>
         <Dropdown
           v-model="transactionData.accountId"
@@ -41,12 +41,27 @@
       </div>
       <div class="p-field">
         <label for="icon">Transaction Type</label>
-        <Dropdown
+        <!-- <Dropdown
           v-model="transactionData.typeId"
           :options="transTypes"
           optionLabel="name"
           optionValue="id"
-        />
+        /> -->
+        <div class="p-formgroup-inline">
+          <div
+            v-for="tt of transTypes"
+            :key="tt.id"
+            class="p-field-radiobutton"
+          >
+            <RadioButton
+              :id="tt.id"
+              name="transactionType"
+              :value="tt.id"
+              v-model="transactionData.typeId"
+            />
+            <label :for="tt.id">{{ tt.name }}</label>
+          </div>
+        </div>
       </div>
     </div>
     <template #footer>
@@ -82,6 +97,7 @@ import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import Calendar from "primevue/calendar";
 import Dropdown from "primevue/dropdown";
+import RadioButton from "primevue/radiobutton";
 
 import useDialog from "@/composables/dialog";
 
@@ -98,6 +114,7 @@ export default {
     InputNumber,
     Calendar,
     Dropdown,
+    RadioButton,
   },
   setup(props: ComponentObjectPropsOptions) {
     onMounted(() => {
@@ -135,5 +152,5 @@ export default {
   },
 };
 </script>
-<style lang="">
+<style lang="scss">
 </style>

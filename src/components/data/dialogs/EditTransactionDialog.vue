@@ -11,7 +11,7 @@
         <label for="icon">Date</label>
         <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
       </div>
-      <div class="p-formgroup-inline">
+      <div class="p-field">
         <label for="icon">Transaction Type</label>
         <!-- <Dropdown
           v-model="transactionData.typeId"
@@ -19,18 +19,20 @@
           optionLabel="name"
           optionValue="id"
         /> -->
-        <div
-          v-for="trans of transTypes"
-          :key="trans.id"
-          class="p-field-radiobutton"
-        >
-          <RadioButton
-            :id="trans.id"
-            name="transType"
-            :value="trans.id"
-            v-model="transactionData.typeId"
-          />
-          <label :for="trans.id">{{ trans.name }}</label>
+        <div class="p-formgroup-inline">
+          <div
+            v-for="trans of transTypes"
+            :key="trans.id"
+            class="p-field-radiobutton"
+          >
+            <RadioButton
+              :id="trans.id"
+              name="transType"
+              :value="trans.id"
+              v-model="transactionData.typeId"
+            />
+            <label :for="trans.id">{{ trans.name }}</label>
+          </div>
         </div>
       </div>
       <span class="p-field">
@@ -96,7 +98,6 @@ import InputNumber from "primevue/inputnumber"
 import RadioButton from "primevue/radiobutton"
 import Calendar from "primevue/calendar"
 import Dropdown from "primevue/dropdown"
-import RadioButton from "primevue/radiobutton"
 
 import useDialog from "@/composables/dialog"
 

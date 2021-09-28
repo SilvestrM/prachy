@@ -91,6 +91,8 @@ import EditTransactionDialog from "@/components/data/dialogs/EditTransactionDial
 
 import { GetMonthByNumber } from "@/utils/dateUtils";
 import { DTOTransaction, Transaction } from "@/types/api/Transaction";
+import store, { key } from "@/store";
+import { useStore } from "vuex";
 
 export default {
   props: ["data"],
@@ -115,6 +117,8 @@ export default {
 
     const createDialog = ref();
     const editDialog = ref();
+
+    const store = useStore(key);
 
     const cm = ref();
     const ctxMenuModel = ref([
@@ -154,7 +158,7 @@ export default {
     }
 
     function editTransaction(row: any): void {
-      editDialog.value.openDialog(row);
+      editDialog.value.openDialog(new Transaction(row));
     }
 
     function deleteTransaction(row: any) {

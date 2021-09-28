@@ -3,6 +3,7 @@ export interface IAccount {
 	name?: string;
 	ownerId?: string;
 	typeId?: number;
+	currency?: string;
 }
 
 export class DTOAccount implements IAccount {
@@ -10,11 +11,13 @@ export class DTOAccount implements IAccount {
 	name?: string;
 	ownerId?: string;
 	typeId?: number;
+	currency?: string;
 	constructor(account: IAccount) {
 		this.id = account.id;
 		this.name = account.name;
 		this.ownerId = account.ownerId;
 		this.typeId = account.typeId;
+		this.currency = account.currency;
 	}
 }
 

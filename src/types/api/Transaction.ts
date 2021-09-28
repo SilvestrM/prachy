@@ -4,7 +4,7 @@ export interface ITransaction {
 	id?: number;
 	uuid?: number | string;
 	date: Date;
-	description: string;
+	description?: string;
 	amount?: number;
 	typeId?: number;
 	accountId?: number;
@@ -19,7 +19,7 @@ export class DTOTransaction implements ITransaction {
 	id?: number | undefined;
 	uuid?: string | number | undefined;
 	date: Date = new Date();
-	description = "";
+	description? = "";
 	amount?: number | undefined;
 	typeId?: number | undefined;
 	accountId?: number;

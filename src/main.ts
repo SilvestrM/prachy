@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
+import Tooltip from "primevue/tooltip";
 
 import "normalize-css";
 import "primevue/resources/themes/saga-green/theme.css";
@@ -17,6 +18,7 @@ import store, { key } from "./store";
 createApp(App)
 	.use(PrimeVue)
 	.use(ToastService)
+	.directive("tooltip", Tooltip)
 	.use(store, key)
 	.use(router)
 	.mount("#app");

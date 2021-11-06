@@ -12,7 +12,7 @@
         <label for="email">Email</label>
       </span>
       <span class="p-float-label">
-        <Password id="pw" v-model="password" />
+        <Password :feedback="false" id="pw" v-model="password" />
 
         <label for="pw">Password</label>
       </span>

@@ -31,7 +31,7 @@
             ref="avatarMenu"
             :model="avatarMenuItems"
             :popup="true"
-            style="width:100%; max-width:20rem;"
+            style="width: 100%; max-width: 20rem"
           >
           </Menu>
         </template>
@@ -66,12 +66,12 @@ export default defineComponent({
       {
         label: "Dashboard",
         icon: PrimeIcons.TH_LARGE,
-        to: "Dashboard",
+        to: { name: "Dashboard" },
       },
       {
         label: "Transactions",
         icon: PrimeIcons.LIST,
-        to: "Transactions",
+        to: { name: "Transactions" },
       },
       {
         label: "Budgets",
@@ -81,12 +81,12 @@ export default defineComponent({
       },
     ]);
     const avatarMenu = ref();
-    const user = computed(() => store.getters.getLoggedInUser?.email)
+    const user = computed(() => store.getters.getLoggedInUser?.email);
     const avatarMenuItems = ref([
       {
         label: user,
         style: "font-weight:bold",
-        icon: PrimeIcons.USER
+        icon: PrimeIcons.USER,
       },
       {
         separator: "true",
@@ -94,7 +94,7 @@ export default defineComponent({
       {
         label: "Settings",
         icon: PrimeIcons.COG,
-        to: "/settings",
+        to: { name: "Settings" },
       },
       {
         label: "Logout",
@@ -122,6 +122,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .menu-wrapper {
-  margin-bottom: 2rem;
+  margin-bottom: 5vh;
 }
 </style>

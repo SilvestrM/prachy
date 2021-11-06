@@ -28,11 +28,11 @@ const actions: ActionTree<AccountsState, RootState> = {
 	async fetchAccounts({ commit }) {
 		const { data: accounts, error } = await supabase
 			.from("accounts")
-			.select("*");
+			.select(`*, type: typeId (id, name, icon)`);
 
 		commit(
 			"setAccounts",
-			accounts?.map((acc) => new Account(acc))
+			accounts?.map((acc) => new Account(acc, acc.type))
 		);
 	},
 

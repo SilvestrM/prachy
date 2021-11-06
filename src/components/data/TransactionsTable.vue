@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-panel">
     <DataTable
       :resizableColumns="true"
       :sortOrder="1"

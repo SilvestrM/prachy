@@ -17,7 +17,7 @@
         <label for="pw">Password</label>
       </span>
       <span class="p-float-label">
-        <Password id="pw" v-model="pwCheck" />
+        <Password :feedback="false" id="pw" v-model="pwCheck" />
 
         <label for="pw">Re-Password</label>
       </span>

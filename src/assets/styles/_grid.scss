@@ -1,0 +1,8 @@
+.pr-grid {
+	display: grid;
+	gap: 2rem;
+	padding: 1rem;
+	&__three {
+		grid-template-columns: repeat(auto-fill, clamp(18rem, 30%, 60rem));
+	}
+}

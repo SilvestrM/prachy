@@ -12,7 +12,7 @@
         <label for="email">Email</label>
       </span>
       <span class="p-float-label">
-        <Password id="pw" v-model="password" />
+        <Password toggleMask :feedback="false" id="pw" v-model="password" />
 
         <label for="pw">Password</label>
       </span>
@@ -40,38 +40,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from "vue"
 
-import Dialog from "primevue/dialog";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Button from "primevue/button";
-import useDialog from "@/composables/dialog";
-import { Credentials } from "@/types/auth";
-import { useStore } from "vuex";
-import { key } from "@/store";
+import Dialog from "primevue/dialog"
+import InputText from "primevue/inputtext"
+import Password from "primevue/password"
+import Button from "primevue/button"
+import useDialog from "@/composables/dialog"
+import { Credentials } from "@/types/auth"
+import { useStore } from "vuex"
+import { key } from "@/store"
 
-import SignUp from "./SignUp.vue";
+import SignUp from "./SignUp.vue"
 
 export default defineComponent({
   // props: { visible: Boolean },
   components: { Dialog, Password, InputText, Button, SignUp },
   setup() {
-    const email = ref<string>();
-    const password = ref<string>();
-    const store = useStore(key);
+    const email = ref<string>()
+    const password = ref<string>()
+    const store = useStore(key)
 
-    const signUpDialog = ref();
+    const signUpDialog = ref()
 
-    const { visible, openDialog, closeDialog } = useDialog();
+    const { visible, openDialog, closeDialog } = useDialog()
 
     async function login(email: string, password: string) {
-      await store.dispatch("login", new Credentials(email, password));
-      closeDialog();
+      await store.dispatch("login", new Credentials(email, password))
+
+      if (store.getters.isAuthenticated) closeDialog()
     }
 
     function openSignUp() {
-      signUpDialog.value.openDialog();
+      signUpDialog.value.openDialog()
     }
 
     return {
@@ -83,10 +84,9 @@ export default defineComponent({
       login,
       signUpDialog,
       openSignUp,
-    };
+    }
   },
-});
+})
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

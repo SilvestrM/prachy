@@ -50,6 +50,7 @@ import useDialog from "@/composables/dialog"
 import { Credentials } from "@/types/auth"
 import { useStore } from "vuex"
 import { key } from "@/store"
+import router from "@/router/index"
 
 import SignUp from "./SignUp.vue"
 
@@ -68,7 +69,12 @@ export default defineComponent({
     async function login(email: string, password: string) {
       await store.dispatch("login", new Credentials(email, password))
 
-      if (store.getters.isAuthenticated) closeDialog()
+      if (store.getters.isAuthenticated) {
+        if (router.currentRoute.value.name === "LandingPage") {
+          router.push("/")
+        }
+        closeDialog()
+      }
     }
 
     function openSignUp() {

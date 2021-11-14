@@ -1,13 +1,13 @@
 .pr-form {
-	display: grid;
-	padding-block: 2rem;
-	&__vertical {
-		grid-template-columns: 1fr;
-		gap: 2rem;
-	}
+  display: grid;
+  padding-block: 2rem;
+  &__vertical {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 
-	&--row {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
-	}
+  &--row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  }
 }

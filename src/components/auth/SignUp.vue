@@ -17,9 +17,9 @@
         <label for="pw">Password</label>
       </span>
       <span class="p-float-label">
-        <Password :feedback="false" id="pw" v-model="pwCheck" />
+        <Password :feedback="false" id="pw2" v-model="pwCheck" />
 
-        <label for="pw">Re-Password</label>
+        <label for="pw2">Re-Password</label>
       </span>
     </div>
     <template #footer>
@@ -39,34 +39,34 @@
 </template>
 
 <script lang="ts">
-import useDialog from "@/composables/dialog";
-import { key } from "@/store";
-import { Credentials } from "@/types/auth";
-import Button from "primevue/button";
-import Dialog from "primevue/dialog";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import { defineComponent, ref, SetupContext } from "vue";
-import { useStore } from "vuex";
+import useDialog from "@/composables/dialog"
+import { key } from "@/store"
+import { Credentials } from "@/types/auth"
+import Button from "primevue/button"
+import Dialog from "primevue/dialog"
+import InputText from "primevue/inputtext"
+import Password from "primevue/password"
+import { defineComponent, ref, SetupContext } from "vue"
+import { useStore } from "vuex"
 
 export default defineComponent({
   // props: { visible: Boolean },
   components: { Dialog, Password, InputText, Button },
   emits: ["close"],
   setup() {
-    const email = ref<string>();
-    const password = ref<string>();
-    const pwCheck = ref<string>();
-    const store = useStore(key);
+    const email = ref<string>()
+    const password = ref<string>()
+    const pwCheck = ref<string>()
+    const store = useStore(key)
 
-    const { visible, openDialog, closeDialog } = useDialog();
+    const { visible, openDialog, closeDialog } = useDialog()
 
     async function register(email: string, password: string, pwCheck: string) {
       if (password !== pwCheck) {
-        return;
+        return
       }
-      await store.dispatch("register", new Credentials(email, password));
-      closeDialog();
+      await store.dispatch("register", new Credentials(email, password))
+      closeDialog()
     }
 
     return {
@@ -77,10 +77,9 @@ export default defineComponent({
       closeDialog,
       register,
       pwCheck,
-    };
+    }
   },
-});
+})
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

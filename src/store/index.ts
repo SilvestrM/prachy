@@ -7,6 +7,8 @@ import createPersistedState from "vuex-persistedstate"
 import { accounts } from "./modules/accounts"
 import { transactions } from "./modules/transactions"
 
+import router from "@/router/index"
+
 export interface RootState {
   session: any
   toast: any
@@ -27,17 +29,22 @@ export default createStore<RootState>({
     async initApp({ commit, state }) {
       supabase.auth.onAuthStateChange((event, session) => {
         commit("setSession", session)
+        console.log(event)
+        console.log(session)
+
+        if (event === "SIGNED_OUT") {
+          router.push({ name: "LandingPage" })
+        }
       })
     },
     async login({ commit, state }, credentials: Credentials) {
-      //const toast = useToast();
-      // toast.add({
-      // 	severity: "info",
-      // 	summary: "Info Message",
-      // 	detail: "Message Content",
-      // 	life: 3000,
-      // 	group: "global",
-      // });
+      // state.toast.add({
+      //   severity: "info",
+      //   summary: "Info Message",
+      //   detail: "Message Content",
+      //   life: 3000,
+      //   group: "global",
+      // })
 
       const { error, ...authData } = await supabase.auth.signIn({
         email: credentials.email,
@@ -78,9 +85,7 @@ export default createStore<RootState>({
       const { error } = await supabase.auth.signOut()
       if (error) {
         alert("Error logging in: " + error.message)
-        return
       }
-      commit("setSession", {})
     },
   },
   getters: {
@@ -88,10 +93,10 @@ export default createStore<RootState>({
       return state.session
     },
     getLoggedInUser(state) {
-      return supabase.auth.user()
+      return state.session.user
     },
     isAuthenticated(state) {
-      return supabase.auth.session() ? true : false
+      return state.session ? true : false
     },
   },
   modules: {

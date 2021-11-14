@@ -1,17 +1,28 @@
 <template>
   <Dialog
     v-model:visible="visible"
-    :style="{ width: '450px' }"
     :header="isUpdate ? 'Edit Transaction' : 'Create Transaction'"
     :modal="true"
     class="p-fluid"
   >
     <div class="pr-form pr-form__vertical">
-      <div class="p-field">
+      <div style="grid-area: date;" class="p-field">
         <label for="icon">Date</label>
         <Calendar id="icon" v-model="transactionData.date" :showIcon="true" />
       </div>
-      <div class="p-field">
+
+      <span style="grid-area: amount;" class="p-field">
+        <label for="amount">Amount</label>
+        <InputNumber
+          id="amount"
+          type="text"
+          mode="currency"
+          currency="EUR"
+          v-model="transactionData.amount"
+          showButtons
+        />
+      </span>
+      <div style="grid-area: ttype;" class="p-field">
         <label for="icon">Transaction Type</label>
         <!-- <Dropdown
           v-model="transactionData.typeId"
@@ -35,18 +46,8 @@
           </div>
         </div>
       </div>
-      <span class="p-field">
-        <label for="amount">Amount</label>
-        <InputNumber
-          id="amount"
-          type="text"
-          mode="currency"
-          currency="EUR"
-          v-model="transactionData.amount"
-          showButtons
-        />
-      </span>
-      <span class="p-field">
+
+      <span style="grid-area: desc;" class="p-field">
         <label for="description">Text</label>
         <InputText
           id="description"
@@ -54,7 +55,7 @@
           v-model="transactionData.description"
         />
       </span>
-      <div class="p-field">
+      <div style="grid-area: account;" class="p-field">
         <label for="icon">Account</label>
         <Dropdown
           v-model="transactionData.accountId"
@@ -153,4 +154,14 @@ export default {
   },
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.pr-form {
+  //grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+  grid-template-areas:
+    "account ..."
+    "date date"
+    "amount ttype"
+    "desc desc";
+}
+</style>

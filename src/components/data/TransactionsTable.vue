@@ -15,6 +15,7 @@
       selectionMode="single"
       sortField="month"
       sortMode="single"
+      showGridlines
       v-model:contextMenuSelection="selected"
       v-model:selection="selected"
     >
@@ -79,20 +80,20 @@
 // import RadioButton from "primevue/radiobutton";
 // import InputNumber from "primevue/inputnumber";
 
-import { computed, PropType, ref } from "vue";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import ContextMenu from "primevue/contextmenu";
-import Toolbar from "primevue/toolbar";
-import Button from "primevue/button";
+import { computed, PropType, ref } from "vue"
+import DataTable from "primevue/datatable"
+import Column from "primevue/column"
+import ContextMenu from "primevue/contextmenu"
+import Toolbar from "primevue/toolbar"
+import Button from "primevue/button"
 //import SpeedDial from "primevue/speeddial";
 
-import EditTransactionDialog from "@/components/data/dialogs/EditTransactionDialog.vue";
+import EditTransactionDialog from "@/components/data/dialogs/EditTransactionDialog.vue"
 
-import { GetMonthByNumber } from "@/utils/dateUtils";
-import { DTOTransaction, Transaction } from "@/types/api/Transaction";
-import store, { key } from "@/store";
-import { useStore } from "vuex";
+import { GetMonthByNumber } from "@/utils/dateUtils"
+import { DTOTransaction, Transaction } from "@/types/api/Transaction"
+import store, { key } from "@/store"
+import { useStore } from "vuex"
 
 export default {
   props: ["data"],
@@ -111,16 +112,16 @@ export default {
       { field: "description", header: "Text", sortable: false },
       { field: "amount", header: "Amount", sortable: true },
       { field: "account.name", header: "Account", sortable: true },
-    ]);
+    ])
 
-    const selected = ref();
+    const selected = ref()
 
-    const createDialog = ref();
-    const editDialog = ref();
+    const createDialog = ref()
+    const editDialog = ref()
 
-    const store = useStore(key);
+    const store = useStore(key)
 
-    const cm = ref();
+    const cm = ref()
     const ctxMenuModel = ref([
       {
         label: "Edit",
@@ -132,41 +133,41 @@ export default {
         icon: "pi pi-fw pi-times",
         command: () => deleteTransaction(selected.value),
       },
-    ]);
+    ])
 
     const actionMenu = ref([
       {
         label: "Add",
         icon: "pi pi-pencil",
         command: () => {
-          return;
+          return
         },
       },
       {
         label: "Update",
         icon: "pi pi-refresh",
         command: () => {
-          return;
+          return
         },
       },
-    ]);
+    ])
 
     function addTransaction() {
       createDialog.value.openDialog(
         new Transaction({ date: new Date(), description: "" })
-      );
+      )
     }
 
     function editTransaction(row: any): void {
-      editDialog.value.openDialog(new Transaction(row));
+      editDialog.value.openDialog(new Transaction(row))
     }
 
     function deleteTransaction(row: any) {
-      return;
+      return
     }
 
     function onRowContextMenu(event: any) {
-      cm.value.show(event.originalEvent);
+      cm.value.show(event.originalEvent)
     }
 
     return {
@@ -180,9 +181,9 @@ export default {
       createDialog,
       actionMenu,
       addTransaction,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

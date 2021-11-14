@@ -10,7 +10,7 @@
         />
       </template>
       <template #end>
-        <Button v-if="!$store.state.session?.user" @click="openSignUp()"
+        <Button v-if="!$store.getters.isAuthenticated" @click="openSignUp()"
           >Sign Up</Button
         >
         <template v-else>
@@ -31,7 +31,7 @@
             ref="avatarMenu"
             :model="avatarMenuItems"
             :popup="true"
-            style="width: 100%; max-width: 20rem"
+            style="width: 100%; max-width: 20rem;"
           >
           </Menu>
         </template>
@@ -42,15 +42,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import MenuBar from "primevue/menubar";
-import Button from "primevue/button";
+import { computed, defineComponent, ref } from "vue"
+import MenuBar from "primevue/menubar"
+import Button from "primevue/button"
 //import Avatar from "primevue/avatar";
-import SignIn from "@/components/auth/SignIn.vue";
-import Menu from "primevue/menu";
-import { useStore } from "vuex";
-import { key } from "@/store";
-import { PrimeIcons } from "primevue/api";
+import SignIn from "@/components/auth/SignIn.vue"
+import Menu from "primevue/menu"
+import { useStore } from "vuex"
+import { key } from "@/store"
+import { PrimeIcons } from "primevue/api"
 
 export default defineComponent({
   components: {
@@ -61,7 +61,7 @@ export default defineComponent({
     Menu,
   },
   setup() {
-    const store = useStore(key);
+    const store = useStore(key)
     const items = ref([
       {
         label: "Dashboard",
@@ -79,9 +79,9 @@ export default defineComponent({
         name: "Dashboard",
         disabled: true,
       },
-    ]);
-    const avatarMenu = ref();
-    const user = computed(() => store.getters.getLoggedInUser?.email);
+    ])
+    const avatarMenu = ref()
+    const user = computed(() => store.getters.getLoggedInUser?.email)
     const avatarMenuItems = ref([
       {
         label: user,
@@ -101,12 +101,12 @@ export default defineComponent({
         icon: PrimeIcons.SIGN_OUT,
         command: () => store.dispatch("logout"),
       },
-    ]);
+    ])
 
-    const signInDialog = ref();
+    const signInDialog = ref()
 
     function openSignUp() {
-      signInDialog.value.openDialog();
+      signInDialog.value.openDialog()
     }
 
     return {
@@ -115,9 +115,9 @@ export default defineComponent({
       openSignUp,
       avatarMenuItems,
       avatarMenu,
-    };
+    }
   },
-});
+})
 </script>
 
 <style scoped lang="scss">

@@ -9,22 +9,22 @@
   </div>
 </template>
 <script lang="ts">
-import { key } from "@/store";
-import { defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
-import Widget from "@/components/data/Widget.vue";
+import { key } from "@/store"
+import { defineComponent, onMounted } from "vue"
+import { useStore } from "vuex"
+import Widget from "@/components/data/Widget.vue"
 
 export default defineComponent({
   components: { Widget },
   setup() {
-    const store = useStore(key);
+    const store = useStore(key)
 
     onMounted(async () => {
-      store.dispatch("fetchTransactions");
-    });
-    return {};
+      store.dispatch("fetchTransactions")
+    })
+    return {}
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
